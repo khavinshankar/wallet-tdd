@@ -19,7 +19,11 @@ public class Wallet {
     }
 
     public void setPreferredCurrency(String preferredCurrency) {
-        this.preferredCurrency = preferredCurrency;
+        switch (preferredCurrency) {
+            case "INR":
+            case "USD": this.preferredCurrency = preferredCurrency; break;
+            default: throw new IllegalArgumentException("make sure preferred currency is valid");
+        }
     }
 
 

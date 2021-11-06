@@ -17,6 +17,21 @@ public class WalletTest {
         Assertions.assertEquals(1, wallet.rupeesToDollars(74.85));
     }
 
+    @Test
+    public void verifySetPreferredCurrencyOnlyAcceptsValidCurrencies() {
+        Assertions.assertAll(
+                () -> {
+                    wallet.setPreferredCurrency("INR");
+                    Assertions.assertEquals("INR", wallet.getPreferredCurrency());
+                },
+                () -> {
+                    wallet.setPreferredCurrency("USD");
+                    Assertions.assertEquals("USD", wallet.getPreferredCurrency());
+                },
+                () -> Assertions.assertThrows(IllegalArgumentException.class, () -> wallet.setPreferredCurrency("SOME"))
+        );
+    }
+
     @Nested
     class verifyDepositFunctionality {
         //    As a wallet owner I would like to be able to put money into my wallet so that I can take it out later.
