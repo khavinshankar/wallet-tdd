@@ -1,3 +1,5 @@
+import exceptions.InsufficientFundsException;
+
 public class Wallet {
     private final double DOLLARTORUPEES = 74.85;
 
@@ -36,6 +38,34 @@ public class Wallet {
     }
 
 
+    public void withdraw(double amount) throws InsufficientFundsException {
+        withdraw(amount, preferredCurrency);
+    }
+
+    public void withdraw(double amount, String currency) throws InsufficientFundsException {
+        if (amount < 0) {
+            throw new IllegalArgumentException("withdrawal amount cannot be negative");
+        }
+
+        switch (currency) {
+            case "INR": withdrawINR(amount); break;
+            case "USD": withdrawUSD(amount); break;
+        }
+    }
+
+    public void withdrawINR(double amount) throws InsufficientFundsException {
+        double amountInUSD = this.rupeesToDollars(amount); // INR -> USD
+        withdrawUSD(amountInUSD);
+    }
+
+    public void withdrawUSD(double amount) throws InsufficientFundsException {
+        if (amount > balance) {
+            throw new InsufficientFundsException("withdrawal amount cannot be greater than balance");
+        }
+        balance -= amount;
+    }
+
+
     public void deposit(double amount) {
         deposit(amount, preferredCurrency);
     }
@@ -51,7 +81,7 @@ public class Wallet {
 
     public void depositINR(double amount) {
         double amountInUSD = this.rupeesToDollars(amount); // INR -> USD
-        balance += amountInUSD;
+        depositUSD(amountInUSD);
     }
 
     public void depositUSD(double amount) {

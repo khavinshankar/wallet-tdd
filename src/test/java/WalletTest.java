@@ -1,3 +1,4 @@
+import exceptions.InsufficientFundsException;
 import org.junit.jupiter.api.*;
 
 public class WalletTest {
@@ -82,7 +83,46 @@ public class WalletTest {
         }
     }
 
+    @Nested
+    class verifyWithdrawFunctionality {
+        //    As a wallet owner I would like to be able to take a specified amount of money out of the wallet.
+        @Test
+        public void verifyWithdrawFunctionalityWithSingleWithdrawal() throws InsufficientFundsException {
+            wallet.deposit(50);
+            Assertions.assertEquals(50, wallet.getBalance());
+            wallet.withdraw(10);
+            Assertions.assertEquals(40, wallet.getBalance());
+        }
 
-//    As a wallet owner I would like to be able to take a specified amount of money out of the wallet.
+        @Test
+        public void verifyWithdrawFunctionalityWithMultipleWithdrawal() throws InsufficientFundsException {
+            wallet.deposit(50);
+            Assertions.assertEquals(50, wallet.getBalance());
+            wallet.withdraw(10);
+            Assertions.assertEquals(40, wallet.getBalance());
+
+            wallet.deposit(100);
+            Assertions.assertEquals(140, wallet.getBalance());
+            wallet.withdraw(50);
+            Assertions.assertEquals(90, wallet.getBalance());
+
+            wallet.deposit(10);
+            Assertions.assertEquals(100, wallet.getBalance());
+            wallet.withdraw(100);
+            Assertions.assertEquals(0, wallet.getBalance());
+        }
+
+        @Test
+        public void verifyWithdrawFunctionalityWithNegativeWithdrawal() {
+            wallet.deposit(50);
+            Assertions.assertThrows(IllegalArgumentException.class, () -> wallet.withdraw(-20));
+        }
+
+        @Test
+        public void verifyWithdrawFunctionalityWithOverWithdrawal() {
+            wallet.deposit(50);
+            Assertions.assertThrows(InsufficientFundsException.class, () -> wallet.withdraw(100));
+        }
+    }
 
 }
