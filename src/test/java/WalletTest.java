@@ -43,10 +43,20 @@ public class WalletTest {
         public void verifyDepositFunctionalityWithNegativeDeposit() {
             Assertions.assertThrows(IllegalArgumentException.class, () -> wallet.deposit(-50));
         }
+
+        //    As a wallet owner, I want to know the total money my wallet has for the preferred currency. When Rs.50 & $1 added to my wallet, Then the sum of money in the wallet is Rs.124.85, (Given preferred currency is Rs.)
+        @Test
+        public void verifyMultipleCurrencyDepositWhenPreferredCurrencyIsINR() {
+            wallet.setPreferredCurrency("INR");
+            wallet.deposit(50, "INR");
+            wallet.deposit(1, "USD");
+
+            double balance = wallet.getBalance();
+            Assertions.assertEquals(124.85, balance);
+        }
     }
 
 
-//    As a wallet owner, I want to know the total money my wallet has for the preferred currency. When Rs.50 & $1 added to my wallet, Then the sum of money in the wallet is Rs.124.85, (Given preferred currency is Rs.)
 //    As a wallet owner, I want to know the total money my wallet has for the preferred currency. When Rs.74.85, $1, Rs.149.7 added to my wallet, Then sum of money in the wallet is $4, (Given preferred currency is $)
 //    As a wallet owner I would like to be able to take a specified amount of money out of the wallet.
 
