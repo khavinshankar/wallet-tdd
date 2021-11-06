@@ -8,6 +8,7 @@ public class Wallet {
     }
 
     public void deposit(double amount) {
+        if (amount < 0) throw new IllegalArgumentException("deposit amount should not be negative");
         balance += amount;
     }
 

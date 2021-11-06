@@ -38,6 +38,11 @@ public class WalletTest {
             wallet.deposit(20);
             Assertions.assertEquals(320, wallet.getBalance());
         }
+
+        @Test
+        public void verifyDepositFunctionalityWithNegativeDeposit() {
+            Assertions.assertThrows(IllegalArgumentException.class, () -> wallet.deposit(-50));
+        }
     }
 
 
