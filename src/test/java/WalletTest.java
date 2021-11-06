@@ -1,7 +1,4 @@
-import org.junit.jupiter.api.Assertions;
-import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Nested;
-import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.*;
 
 public class WalletTest {
     private Wallet wallet;
@@ -61,6 +58,7 @@ public class WalletTest {
 
         //    As a wallet owner, I want to know the total money my wallet has for the preferred currency. When Rs.50 & $1 added to my wallet, Then the sum of money in the wallet is Rs.124.85, (Given preferred currency is Rs.)
         @Test
+        @DisplayName("50 INR + 1 USD = 124 INR when preferred currency is INR")
         public void verifyMultipleCurrencyDepositWhenPreferredCurrencyIsINR() {
             wallet.setPreferredCurrency("INR");
             wallet.deposit(50, "INR");
@@ -69,10 +67,22 @@ public class WalletTest {
             double balance = wallet.getBalance();
             Assertions.assertEquals(124.85, balance);
         }
+
+        //    As a wallet owner, I want to know the total money my wallet has for the preferred currency. When Rs.74.85, $1, Rs.149.7 added to my wallet, Then sum of money in the wallet is $4, (Given preferred currency is $)
+        @Test
+        @DisplayName("74.85 INR + 1 USD + 149.7 INR = 4 USD, when preferred currency is USD")
+        public void verifyMultipleCurrencyDepositWhenPreferredCurrencyIsUSD() {
+            wallet.setPreferredCurrency("USD");
+            wallet.deposit(74.85, "INR");
+            wallet.deposit(1, "USD");
+            wallet.deposit(149.7, "INR");
+
+            double balance = wallet.getBalance();
+            Assertions.assertEquals(4, balance);
+        }
     }
 
 
-//    As a wallet owner, I want to know the total money my wallet has for the preferred currency. When Rs.74.85, $1, Rs.149.7 added to my wallet, Then sum of money in the wallet is $4, (Given preferred currency is $)
 //    As a wallet owner I would like to be able to take a specified amount of money out of the wallet.
 
 }
