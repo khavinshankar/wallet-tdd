@@ -1,27 +1,30 @@
 import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 public class WalletTest {
+    private Wallet wallet;
+
+    @BeforeEach
+    void setup() {
+        wallet = new Wallet();
+    }
+
 //    As a wallet owner, I would like to be able to know that 74.85 rupees is equal to 1 dollar.
     @Test
     public void verifySeventyFourRupeesEightyFivePaiseIsOneDollar() {
-        Wallet wallet = new Wallet();
         Assertions.assertEquals(1, wallet.rupeesToDollars(74.85));
     }
 
 //    As a wallet owner I would like to be able to put money into my wallet so that I can take it out later.
     @Test
     public void verifyDepositFunctionalityWithSingleDeposit() {
-        Wallet wallet = new Wallet();
-
         wallet.deposit(50);
         Assertions.assertEquals(50, wallet.getBalance());
     }
 
     @Test
     public void verifyDepositFunctionalityWithMultipleDeposits() {
-        Wallet wallet = new Wallet();
-
         wallet.deposit(50);
         Assertions.assertEquals(50, wallet.getBalance());
 
