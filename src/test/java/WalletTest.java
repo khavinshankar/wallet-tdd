@@ -1,5 +1,6 @@
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
 
 public class WalletTest {
@@ -16,25 +17,29 @@ public class WalletTest {
         Assertions.assertEquals(1, wallet.rupeesToDollars(74.85));
     }
 
-//    As a wallet owner I would like to be able to put money into my wallet so that I can take it out later.
-    @Test
-    public void verifyDepositFunctionalityWithSingleDeposit() {
-        wallet.deposit(50);
-        Assertions.assertEquals(50, wallet.getBalance());
+    @Nested
+    class verifyDepositFunctionality {
+        //    As a wallet owner I would like to be able to put money into my wallet so that I can take it out later.
+        @Test
+        public void verifyDepositFunctionalityWithSingleDeposit() {
+            wallet.deposit(50);
+            Assertions.assertEquals(50, wallet.getBalance());
+        }
+
+        @Test
+        public void verifyDepositFunctionalityWithMultipleDeposits() {
+            wallet.deposit(50);
+            Assertions.assertEquals(50, wallet.getBalance());
+
+            wallet.deposit(150);
+            Assertions.assertEquals(200, wallet.getBalance());
+
+            wallet.deposit(100);
+            wallet.deposit(20);
+            Assertions.assertEquals(320, wallet.getBalance());
+        }
     }
 
-    @Test
-    public void verifyDepositFunctionalityWithMultipleDeposits() {
-        wallet.deposit(50);
-        Assertions.assertEquals(50, wallet.getBalance());
-
-        wallet.deposit(150);
-        Assertions.assertEquals(200, wallet.getBalance());
-
-        wallet.deposit(100);
-        wallet.deposit(20);
-        Assertions.assertEquals(320, wallet.getBalance());
-    }
 
 //    As a wallet owner, I want to know the total money my wallet has for the preferred currency. When Rs.50 & $1 added to my wallet, Then the sum of money in the wallet is Rs.124.85, (Given preferred currency is Rs.)
 //    As a wallet owner, I want to know the total money my wallet has for the preferred currency. When Rs.74.85, $1, Rs.149.7 added to my wallet, Then sum of money in the wallet is $4, (Given preferred currency is $)
